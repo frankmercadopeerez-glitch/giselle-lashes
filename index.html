@@ -45,30 +45,72 @@
     <style>
         body { font-family: 'Inter', sans-serif; }
         
-        /* Estilos personalizados para inputs */
+        /* Estilos generales para TODOS los inputs */
         .form-input, .form-textarea, .form-checkbox {
             transition: all 0.3s ease;
-            border: 1px solid #FBCFE8; /* Borde rosa suave */
+            border: 1px solid #FBCFE8;
+            
+            /* FIX IMPORTANTE: Resetear apariencia nativa para iPhone */
+            appearance: none;
+            -webkit-appearance: none; 
+            -moz-appearance: none;
+            
+            /* Asegurar dimensiones consistentes */
+            width: 100%;
+            display: block;
+            box-sizing: border-box;
+            
+            /* FIX: Altura y color forzados para evitar que se vea "delgada" o gris */
+            min-height: 48px; /* Altura fija igual al teléfono */
+            background-color: #ffffff !important; /* Fondo blanco obligatorio */
+            color: #374151; /* Color de texto gris oscuro */
         }
         
+        /* Corrección específica para el input date en iOS para que el texto se centre verticalmente */
+        input[type="date"] {
+            display: flex;
+            align-items: center;
+            padding-top: 0.75rem; /* py-3 equivalente */
+            padding-bottom: 0.75rem;
+        }
+
         .form-input:focus, .form-textarea:focus {
-            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2); /* Glow rosa */
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2);
             border-color: #F472B6;
             outline: none;
         }
 
-        /* Estilo para el selector de teléfono */
-        .iti { width: 100%; }
-        .iti__tel-input { 
-            padding-left: 58px !important; 
-            border: 1px solid #FBCFE8 !important;
-            border-radius: 0.5rem !important;
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
+        /* --- INPUT DE TELÉFONO --- */
+        .iti { 
+            width: 100%; 
+            display: block; 
+            margin-bottom: 0; 
         }
-        .iti__tel-input:focus {
+        
+        #phone { 
+            width: 100% !important;
+            height: auto !important;
+            min-height: 48px !important; 
+            background-color: #ffffff !important; 
+            border: 1px solid #FBCFE8 !important; 
+            border-radius: 0.5rem !important; 
+            padding-top: 0.75rem !important;
+            padding-bottom: 0.75rem !important;
+            padding-left: 52px !important; 
+            padding-right: 1rem !important;
+            margin: 0 !important;
+            color: #374151 !important;
+            font-family: 'Inter', sans-serif !important;
+            box-shadow: none !important; 
+            appearance: none !important; 
+            -webkit-appearance: none !important;
+        }
+
+        #phone:focus {
             border-color: #F472B6 !important;
             box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2) !important;
+            outline: none !important;
+            background-color: #ffffff !important;
         }
 
         /* Checkboxes personalizados */
@@ -77,7 +119,7 @@
             border-color: #F472B6;
         }
         
-        /* Scrollbar personalizado para el área de términos */
+        /* Scrollbar personalizado */
         .terms-scroll::-webkit-scrollbar {
             width: 8px;
         }
@@ -113,24 +155,24 @@
 <body class="bg-brand-light min-h-screen flex flex-col text-gray-700">
 
     <!-- Encabezado -->
-    <header class="bg-white shadow-sm border-b border-brand-border sticky top-0 z-50">
-        <div class="container mx-auto px-6 py-4 text-center">
-            <h1 class="font-script text-5xl md:text-6xl text-brand-pink drop-shadow-sm">
+    <header class="bg-white shadow-sm border-b border-brand-border relative">
+        <div class="container mx-auto px-6 py-3 text-center">
+            <h1 class="font-script text-4xl md:text-5xl text-brand-pink drop-shadow-sm">
                 Carolina García Lashes
             </h1>
-            <p class="text-gray-500 text-sm uppercase tracking-widest mt-2 font-medium">
+            <p class="text-gray-500 text-xs md:text-sm uppercase tracking-widest mt-1 font-medium">
                 Formulario de Consentimiento & Ficha Clínica
             </p>
         </div>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 py-10 md:py-16 max-w-4xl">
+    <main class="flex-grow container mx-auto px-4 py-8 md:py-16 max-w-4xl">
         
-        <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-brand-border">
+        <div class="bg-white p-6 md:p-12 rounded-3xl shadow-xl border border-brand-border">
             
-            <div class="text-center mb-10">
-                <h2 class="text-2xl font-serif text-gray-800 mb-3">Bienvenida, hermosa</h2>
-                <p class="text-gray-600 leading-relaxed">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-serif text-gray-800 mb-2">Bienvenida, hermosa</h2>
+                <p class="text-gray-600 leading-relaxed text-sm md:text-base">
                     Para garantizar un servicio seguro y resultados espectaculares, por favor completa esta ficha con total sinceridad. 
                     Tu salud ocular es mi prioridad.
                 </p>
@@ -152,26 +194,27 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div class="form-group col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo <span class="text-brand-dark">*</span></label>
-                            <input type="text" name="nombre" class="form-input w-full px-4 py-3 rounded-lg bg-white" placeholder="Tu nombre aquí" required>
+                            <input type="text" name="nombre" class="form-input w-full px-4 py-3 rounded-lg" placeholder="Tu nombre aquí" required>
                             <p class="text-red-500 text-xs error-message">Este campo es obligatorio.</p>
                         </div>
 
+                        <!-- FIX: Fecha de nacimiento con estilos consistentes -->
                         <div class="form-group col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento <span class="text-brand-dark">*</span></label>
-                            <input type="date" name="fecha_nacimiento" class="form-input w-full px-4 py-3 rounded-lg bg-white text-gray-600" required>
+                            <input type="date" name="fecha_nacimiento" class="form-input w-full px-4 py-3 rounded-lg text-gray-600" required>
                             <p class="text-red-500 text-xs error-message">Requerido.</p>
                         </div>
 
                         <div class="form-group col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono / WhatsApp <span class="text-brand-dark">*</span></label>
-                            <input type="tel" id="phone" class="form-input w-full bg-white" required>
+                            <input type="tel" id="phone" class="form-input w-full" required>
                             <input type="hidden" name="telefono_completo" id="telefono_completo">
                             <p class="text-red-500 text-xs error-message">Teléfono válido requerido.</p>
                         </div>
 
                         <div class="form-group col-span-2 md:col-span-1">
                             <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico <span class="text-brand-dark">*</span></label>
-                            <input type="email" name="email" class="form-input w-full px-4 py-3 rounded-lg bg-white" placeholder="ejemplo@correo.com" required>
+                            <input type="email" name="email" class="form-input w-full px-4 py-3 rounded-lg" placeholder="ejemplo@correo.com" required>
                             <p class="text-red-500 text-xs error-message">Email válido requerido.</p>
                         </div>
                     </div>
@@ -257,7 +300,7 @@
                     <div class="grid grid-cols-1 gap-6">
                         <div class="form-group">
                             <label class="block text-sm font-medium text-gray-700 mb-1">¿Te has realizado extensiones de pestañas o lifting anteriormente?</label>
-                            <select name="experiencia_previa" class="form-input w-full px-4 py-3 rounded-lg bg-white">
+                            <select name="experiencia_previa" class="form-input w-full px-4 py-3 rounded-lg">
                                 <option value="">Seleccionar...</option>
                                 <option value="Primera vez">No, es mi primera vez</option>
                                 <option value="Si, extensiones">Sí, extensiones de pestañas</option>
@@ -266,7 +309,7 @@
                         </div>
                         <div class="form-group">
                             <label class="block text-sm font-medium text-gray-700 mb-1">¿Tuviste alguna reacción negativa (picor, hinchazón, rojez)?</label>
-                            <textarea name="reaccion_previa" rows="2" class="form-textarea w-full px-4 py-3 rounded-lg bg-white" placeholder="Si la respuesta es sí, detalla qué ocurrió..."></textarea>
+                            <textarea name="reaccion_previa" rows="2" class="form-textarea w-full px-4 py-3 rounded-lg" placeholder="Si la respuesta es sí, detalla qué ocurrió..."></textarea>
                         </div>
                     </div>
                 </div>
@@ -330,7 +373,7 @@
                 <!-- Firma Digital -->
                 <div class="mb-8">
                     <label class="block text-sm font-medium text-gray-700 mb-2">Firma Digital (Escribe tu nombre completo) <span class="text-brand-dark">*</span></label>
-                    <input type="text" name="firma_digital" class="form-input w-full px-4 py-3 rounded-lg bg-gray-50 font-script text-3xl text-brand-dark" placeholder="Firma Aquí" required>
+                    <input type="text" name="firma_digital" class="form-input w-full px-4 py-3 rounded-lg font-script text-3xl text-brand-dark" placeholder="Firma Aquí" required>
                     <p class="text-xs text-gray-500 mt-2">Al escribir tu nombre, aceptas que esto sirve como tu firma legal vinculante.</p>
                 </div>
 
