@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consentimiento Informado - Giselle Puello Lashes</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter (texto) y Great Vibes (títulos cursivos) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Librería para el selector de país (intl-tel-input) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/css/intlTelInput.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/intlTelInput.min.js"></script>
+
+    <!-- Configuración de colores personalizados -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            pink: '#F472B6',    // Rosa vibrante para acentos
+                            light: '#FDF2F8',   // Rosa muy claro para fondos
+                            dark: '#BE185D',    // Rosa oscuro para textos importantes
+                            border: '#FBCFE8'   // Rosa suave para bordes
+                        }
+                    },
+                    fontFamily: {
+                        script: ['"Great Vibes"', 'cursive'],
+                        sans: ['"Inter"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        
+        /* Estilos personalizados para inputs */
+        .form-input, .form-textarea, .form-checkbox {
+            transition: all 0.3s ease;
+            border: 1px solid #FBCFE8; /* Borde rosa suave */
+        }
+        
+        .form-input:focus, .form-textarea:focus {
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2); /* Glow rosa */
+            border-color: #F472B6;
+            outline: none;
+        }
+
+        /* Estilo para el selector de teléfono */
+        .iti { width: 100%; }
+        .iti__tel-input { 
+            padding-left: 58px !important; 
+            border: 1px solid #FBCFE8 !important;
+            border-radius: 0.5rem !important;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+        .iti__tel-input:focus {
+            border-color: #F472B6 !important;
+            box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2) !important;
+        }
+
+        /* Checkboxes personalizados */
+        input[type="checkbox"]:checked {
+            background-color: #F472B6;
+            border-color: #F472B6;
+        }
+        
+        /* Scrollbar personalizado para el área de términos */
+        .terms-scroll::-webkit-scrollbar {
+            width: 8px;
+        }
+        .terms-scroll::-webkit-scrollbar-track {
+            background: #FDF2F8; 
+            border-radius: 4px;
+        }
+        .terms-scroll::-webkit-scrollbar-thumb {
+            background: #F472B6; 
+            border-radius: 4px;
+        }
+        .terms-scroll::-webkit-scrollbar-thumb:hover {
+            background: #BE185D; 
+        }
+
+        /* Animación suave para validación */
+        .error-message {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .form-group.error .error-message {
+            max-height: 2rem;
+            opacity: 1;
+            margin-top: 0.25rem;
+        }
+        .form-group.error input, .form-group.error textarea, .form-group.error select {
+            border-color: #EF4444 !important;
+        }
+    </style>
+</head>
+<body class="bg-brand-light min-h-screen flex flex-col text-gray-700">
+
+    <!-- Encabezado -->
+    <header class="bg-white shadow-sm border-b border-brand-border sticky top-0 z-50">
+        <div class="container mx-auto px-6 py-4 text-center">
+            <h1 class="font-script text-5xl md:text-6xl text-brand-pink drop-shadow-sm">
+                Giselle Puello Lashes
+            </h1>
+            <p class="text-gray-500 text-sm uppercase tracking-widest mt-2 font-medium">
+                Formulario de Consentimiento & Ficha Clínica
+            </p>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-10 md:py-16 max-w-4xl">
+        
+        <div class="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-brand-border">
+            
+            <div class="text-center mb-10">
+                <h2 class="text-2xl font-serif text-gray-800 mb-3">Bienvenida, hermosa</h2>
+                <p class="text-gray-600 leading-relaxed">
+                    Para garantizar un servicio seguro y resultados espectaculares, por favor completa esta ficha con total sinceridad. 
+                    Tu salud ocular es mi prioridad.
+                </p>
+            </div>
+
+            <!-- 
+                 IMPORTANTE: CAMBIA LA URL DE ACTION POR TU LINK DE FORMSPREE 
+                 Ejemplo: action="https://formspree.io/f/tucodigo"
+            -->
+            <form id="client-form" method="POST" action="https://formspree.io/f/PON_TU_ID_AQUI" novalidate>
+
+                <!-- SECCIÓN 1: Datos Personales -->
+                <div class="mb-10">
+                    <div class="flex items-center mb-6 border-b border-brand-border pb-2">
+                        <span class="bg-brand-pink text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">1</span>
+                        <h3 class="text-xl font-semibold text-gray-800">Datos Personales</h3>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="form-group col-span-2 md:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Nombre Completo <span class="text-brand-dark">*</span></label>
+                            <input type="text" name="nombre" class="form-input w-full px-4 py-3 rounded-lg bg-white" placeholder="Tu nombre aquí" required>
+                            <p class="text-red-500 text-xs error-message">Este campo es obligatorio.</p>
+                        </div>
+
+                        <div class="form-group col-span-2 md:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Fecha de Nacimiento <span class="text-brand-dark">*</span></label>
+                            <input type="date" name="fecha_nacimiento" class="form-input w-full px-4 py-3 rounded-lg bg-white text-gray-600" required>
+                            <p class="text-red-500 text-xs error-message">Requerido.</p>
+                        </div>
+
+                        <div class="form-group col-span-2 md:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Teléfono / WhatsApp <span class="text-brand-dark">*</span></label>
+                            <input type="tel" id="phone" class="form-input w-full bg-white" required>
+                            <input type="hidden" name="telefono_completo" id="telefono_completo">
+                            <p class="text-red-500 text-xs error-message">Teléfono válido requerido.</p>
+                        </div>
+
+                        <div class="form-group col-span-2 md:col-span-1">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico <span class="text-brand-dark">*</span></label>
+                            <input type="email" name="email" class="form-input w-full px-4 py-3 rounded-lg bg-white" placeholder="ejemplo@correo.com" required>
+                            <p class="text-red-500 text-xs error-message">Email válido requerido.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 2: Historia Clínica y Estado Ocular -->
+                <div class="mb-10">
+                    <div class="flex items-center mb-6 border-b border-brand-border pb-2">
+                        <span class="bg-brand-pink text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">2</span>
+                        <h3 class="text-xl font-semibold text-gray-800">Historia Clínica</h3>
+                    </div>
+                    <p class="text-sm text-gray-500 mb-6 italic">Por favor marca SI o NO en las siguientes condiciones críticas:</p>
+
+                    <div class="space-y-4">
+                        <!-- Pregunta 1 -->
+                        <div class="flex items-start md:items-center justify-between p-4 bg-pink-50/50 rounded-lg border border-pink-100">
+                            <span class="text-sm md:text-base font-medium text-gray-700 pr-4">¿Tienes alergia al látex, acrílicos o adhesivos (pegamento)?</span>
+                            <div class="flex space-x-4 min-w-[100px]">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="alergia_adhesivos" value="Si" class="mr-2 accent-pink-500" required> Sí</label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="alergia_adhesivos" value="No" class="mr-2 accent-pink-500" required> No</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 2 -->
+                        <div class="flex items-start md:items-center justify-between p-4 bg-white rounded-lg border border-gray-100">
+                            <span class="text-sm md:text-base font-medium text-gray-700 pr-4">¿Usas lentes de contacto habitualmente?</span>
+                            <div class="flex space-x-4 min-w-[100px]">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lentes_contacto" value="Si" class="mr-2 accent-pink-500" required> Sí</label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="lentes_contacto" value="No" class="mr-2 accent-pink-500" required> No</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 3 -->
+                        <div class="flex items-start md:items-center justify-between p-4 bg-pink-50/50 rounded-lg border border-pink-100">
+                            <span class="text-sm md:text-base font-medium text-gray-700 pr-4">¿Has tenido cirugías oculares recientes (Lasik, Blefaroplastia)?</span>
+                            <div class="flex space-x-4 min-w-[100px]">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="cirugia_ocular" value="Si" class="mr-2 accent-pink-500" required> Sí</label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="cirugia_ocular" value="No" class="mr-2 accent-pink-500" required> No</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 4 -->
+                        <div class="flex items-start md:items-center justify-between p-4 bg-white rounded-lg border border-gray-100">
+                            <span class="text-sm md:text-base font-medium text-gray-700 pr-4">¿Estás embarazada o en periodo de lactancia?</span>
+                            <div class="flex space-x-4 min-w-[100px]">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="embarazo" value="Si" class="mr-2 accent-pink-500" required> Sí</label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="embarazo" value="No" class="mr-2 accent-pink-500" required> No</label>
+                            </div>
+                        </div>
+
+                        <!-- Pregunta 5 -->
+                        <div class="flex items-start md:items-center justify-between p-4 bg-pink-50/50 rounded-lg border border-pink-100">
+                            <span class="text-sm md:text-base font-medium text-gray-700 pr-4">¿Sufres de claustrofobia o ansiedad al estar acostada mucho tiempo?</span>
+                            <div class="flex space-x-4 min-w-[100px]">
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="claustrofobia" value="Si" class="mr-2 accent-pink-500" required> Sí</label>
+                                <label class="flex items-center cursor-pointer"><input type="radio" name="claustrofobia" value="No" class="mr-2 accent-pink-500" required> No</label>
+                            </div>
+                        </div>
+                        
+                        <!-- Checkbox Grid Condiciones Médicas -->
+                        <div class="mt-6">
+                            <p class="text-sm font-medium text-gray-700 mb-3">Marca si padeces alguna de las siguientes condiciones:</p>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Ojo Seco" class="mr-2 accent-pink-500 rounded"> Ojo Seco</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Conjuntivitis" class="mr-2 accent-pink-500 rounded"> Conjuntivitis</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Orzuelos" class="mr-2 accent-pink-500 rounded"> Orzuelos frecuentes</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Alopecia" class="mr-2 accent-pink-500 rounded"> Alopecia</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Glaucoma" class="mr-2 accent-pink-500 rounded"> Glaucoma</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Diabetes" class="mr-2 accent-pink-500 rounded"> Diabetes</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Tiroides" class="mr-2 accent-pink-500 rounded"> Tiroides</label>
+                                <label class="flex items-center"><input type="checkbox" name="condiciones[]" value="Ninguna" class="mr-2 accent-pink-500 rounded"> Ninguna</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 3: Antecedentes del Servicio -->
+                <div class="mb-10">
+                    <div class="flex items-center mb-6 border-b border-brand-border pb-2">
+                        <span class="bg-brand-pink text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">3</span>
+                        <h3 class="text-xl font-semibold text-gray-800">Antecedentes de Servicio</h3>
+                    </div>
+                    <div class="grid grid-cols-1 gap-6">
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">¿Te has realizado extensiones de pestañas o lifting anteriormente?</label>
+                            <select name="experiencia_previa" class="form-input w-full px-4 py-3 rounded-lg bg-white">
+                                <option value="">Seleccionar...</option>
+                                <option value="Primera vez">No, es mi primera vez</option>
+                                <option value="Si, extensiones">Sí, extensiones de pestañas</option>
+                                <option value="Si, lifting">Sí, lifting de pestañas</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="block text-sm font-medium text-gray-700 mb-1">¿Tuviste alguna reacción negativa (picor, hinchazón, rojez)?</label>
+                            <textarea name="reaccion_previa" rows="2" class="form-textarea w-full px-4 py-3 rounded-lg bg-white" placeholder="Si la respuesta es sí, detalla qué ocurrió..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 4: Descargo de Responsabilidad y Consentimiento -->
+                <div class="mb-8">
+                    <div class="flex items-center mb-4 border-b border-brand-border pb-2">
+                        <span class="bg-brand-pink text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3">!</span>
+                        <h3 class="text-xl font-semibold text-brand-dark">Consentimiento Informado & Acuerdo</h3>
+                    </div>
+                    
+                    <!-- Caja de texto legal con scroll -->
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-5 h-64 overflow-y-auto mb-6 text-sm text-gray-600 leading-relaxed terms-scroll shadow-inner">
+                        <p class="font-bold text-gray-800 mb-2">POR FAVOR LEE CUIDADOSAMENTE:</p>
+                        
+                        <p class="mb-3"><strong class="text-brand-pink">1. Naturaleza del Procedimiento:</strong> Entiendo que las extensiones de pestañas son un procedimiento estético que consiste en adherir pestañas sintéticas a mis pestañas naturales usando un adhesivo de grado médico. Entiendo que el procedimiento requiere que permanezca con los ojos cerrados durante un periodo prolongado (aprox. 2 horas).</p>
+                        
+                        <p class="mb-3"><strong class="text-brand-pink">2. Riesgos Posibles:</strong> Aunque es poco común, reconozco que existen riesgos asociados como irritación ocular, dolor ocular, picazón, enrojecimiento o, en casos excepcionales, infección o reacción alérgica al adhesivo o parches de hidrogel.</p>
+                        
+                        <p class="mb-3"><strong class="text-brand-pink">3. Duración y Retención:</strong> Entiendo que la duración de las extensiones depende de mi ciclo natural de crecimiento de pestañas y de mis cuidados posteriores. Sé que es necesario realizar retoques (mantenimientos) cada 15-21 días para mantener el set lleno.</p>
+                        
+                        <p class="mb-3"><strong class="text-brand-pink">4. Cuidados Posteriores (Obligatorio):</strong> Me comprometo a seguir las instrucciones de cuidado:</p>
+                        <ul class="list-disc list-inside pl-2 mb-3 space-y-1">
+                            <li>No mojar las pestañas durante las primeras 24 horas.</li>
+                            <li>No usar rímel a prueba de agua ni encrespadores mecánicos.</li>
+                            <li>Lavar las pestañas diariamente con shampoo especial para pestañas.</li>
+                            <li>No arrancar ni jalar las extensiones.</li>
+                            <li>Evitar productos a base de aceite cerca de los ojos.</li>
+                        </ul>
+
+                        <p class="mb-3"><strong class="text-brand-pink">5. Garantía y Reembolsos:</strong> Entiendo que si experimento una reacción alérgica en las primeras 48 horas, debo contactar al profesional para un retiro gratuito, sin embargo, no se realizarán reembolsos del dinero por el servicio realizado, ya que el tiempo y materiales fueron utilizados.</p>
+
+                        <p><strong class="text-brand-pink">6. Veracidad:</strong> Declaro que toda la información médica proporcionada anteriormente es verdadera y completa.</p>
+                    </div>
+
+                    <!-- Checks de Aceptación -->
+                    <div class="space-y-4 bg-white p-4 rounded-xl border border-brand-border shadow-sm">
+                        <div class="form-group flex items-start">
+                            <input type="checkbox" id="check_riesgos" name="acepto_riesgos" class="mt-1 mr-3 w-5 h-5 text-brand-pink border-gray-300 rounded focus:ring-brand-pink" required>
+                            <label for="check_riesgos" class="text-sm text-gray-700">
+                                <strong>He leído y comprendido los riesgos</strong> asociados al procedimiento y deseo proceder bajo mi propia responsabilidad.
+                            </label>
+                        </div>
+
+                        <div class="form-group flex items-start">
+                            <input type="checkbox" id="check_cuidados" name="acepto_cuidados" class="mt-1 mr-3 w-5 h-5 text-brand-pink border-gray-300 rounded focus:ring-brand-pink" required>
+                            <label for="check_cuidados" class="text-sm text-gray-700">
+                                <strong>Me comprometo a seguir los cuidados posteriores</strong> (no mojar 24h, lavar diariamente, no usar aceites) para garantizar la salud de mis pestañas.
+                            </label>
+                        </div>
+
+                        <div class="form-group flex items-start">
+                            <input type="checkbox" id="check_fotos" name="autorizo_fotos" class="mt-1 mr-3 w-5 h-5 text-brand-pink border-gray-300 rounded focus:ring-brand-pink">
+                            <label for="check_fotos" class="text-sm text-gray-700">
+                                Autorizo el uso de fotografías de mis ojos ("antes y después") para fines promocionales en redes sociales de Giselle Puello Lashes (sin mostrar mi rostro completo).
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Firma Digital -->
+                <div class="mb-8">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Firma Digital (Escribe tu nombre completo) <span class="text-brand-dark">*</span></label>
+                    <input type="text" name="firma_digital" class="form-input w-full px-4 py-3 rounded-lg bg-gray-50 font-script text-3xl text-brand-dark" placeholder="Firma Aquí" required>
+                    <p class="text-xs text-gray-500 mt-2">Al escribir tu nombre, aceptas que esto sirve como tu firma legal vinculante.</p>
+                </div>
+
+                <!-- Botón Enviar -->
+                <div class="text-center mt-10">
+                    <button type="submit" class="w-full md:w-auto bg-brand-pink hover:bg-brand-dark text-white font-bold py-4 px-12 rounded-full shadow-lg transform transition hover:-translate-y-1 hover:shadow-xl text-lg uppercase tracking-wider">
+                        Enviar Consentimiento
+                    </button>
+                </div>
+                
+                <p class="text-center text-xs text-gray-400 mt-6">
+                    &copy; <script>document.write(new Date().getFullYear())</script> Giselle Puello Lashes. Todos los derechos reservados.
+                </p>
+
+            </form>
+        </div>
+    </main>
+
+    <script>
+        // --- Inicialización del Input de Teléfono ---
+        const phoneInputField = document.querySelector("#phone");
+        const phoneHiddenInput = document.querySelector("#telefono_completo");
+        
+        const phoneInput = window.intlTelInput(phoneInputField, {
+            initialCountry: "auto",
+            geoIpLookup: function(callback) {
+                fetch("https://ipapi.co/json")
+                  .then(res => res.json())
+                  .then(data => callback(data.country_code || "co")) // Default Colombia si falla
+                  .catch(() => callback("co"));
+            },
+            preferredCountries: ['co', 'mx', 'es', 'us'],
+            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.13/js/utils.js",
+        });
+
+        // --- Lógica de Validación ---
+        const form = document.getElementById('client-form');
+
+        // Función para validar un campo individual
+        function validateField(field) {
+            const group = field.closest('.form-group');
+            if (!group) return true; // Si no está en un grupo, ignorar visualmente
+            
+            let isValid = true;
+
+            // Validación específica para radios
+            if (field.type === 'radio') {
+                const radioGroup = form.querySelectorAll(`input[name="${field.name}"]`);
+                const isChecked = Array.from(radioGroup).some(r => r.checked);
+                if (!isChecked) isValid = false;
+            } 
+            // Validación para checkboxes requeridos
+            else if (field.type === 'checkbox') {
+                if (field.required && !field.checked) isValid = false;
+            }
+            // Validación inputs normales
+            else {
+                if (!field.value.trim()) isValid = false;
+                // Validación extra para email
+                if (field.type === 'email' && field.value.trim() && !field.value.includes('@')) isValid = false;
+            }
+
+            // Toggle clase de error
+            if (!isValid) {
+                group.classList.add('error');
+            } else {
+                group.classList.remove('error');
+            }
+            
+            return isValid;
+        }
+
+        // Validar al enviar
+        form.addEventListener('submit', function(event) {
+            let isFormValid = true;
+            
+            // 1. Actualizar teléfono oculto
+            if (phoneInput.isValidNumber()) {
+                phoneHiddenInput.value = phoneInput.getNumber();
+                phoneInputField.closest('.form-group').classList.remove('error');
+            } else {
+                isFormValid = false;
+                phoneInputField.closest('.form-group').classList.add('error');
+            }
+
+            // 2. Validar todos los campos requeridos
+            const requiredFields = form.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                if (!validateField(field)) {
+                    isFormValid = false;
+                }
+            });
+
+            // Si hay errores, detener envío y scroll al primer error
+            if (!isFormValid) {
+                event.preventDefault();
+                const firstError = document.querySelector('.form-group.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }
+            }
+        });
+
+        // Validar en tiempo real cuando el usuario cambia el input (para quitar el rojo)
+        form.addEventListener('input', function(e) {
+            if (e.target.required) {
+                validateField(e.target);
+            }
+        });
+    </script>
+</body>
+</html>
